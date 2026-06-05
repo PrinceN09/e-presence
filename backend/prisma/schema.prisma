@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  employees Employee[]
+}
+
+model Employee {
+  id           String       @id @default(uuid())
+  matricule    String       @unique
+  name         String
+  grade        String
+  gradeLabel   String?
+  phone        String       @unique
+  email        String?      @unique
+  password     String
+  role         Role         @default(EMPLOYEE)
+  isActive     Boolean      @default(true)
+  departmentId String
+  department   Department   @relation(fields: [departmentId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  firstLogin     Boolean      @default(true)
+  tokenVersion   Int          @default(0)
+
+  attendances         Attendance[]
+  refreshTokens       RefreshToken[]
+  leaveRequests       LeaveRequest[]
+  passwordResetTokens PasswordResetToken[]
+  auditLogs           AuditLog[]
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+}
+
+model DailyCode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  date      DateTime @unique @db.Date
+  createdAt DateTime @default(now())
+}
+
+model Attendance {
+  id          String           @id @default(uuid())
+  employeeId  String
+  employee    Employee         @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  date        DateTime         @db.Date
+  signInAt    DateTime?
+  signOutAt   DateTime?
+  lunchOutAt  DateTime?
+  lunchInAt   DateTime?
+  status      AttendanceStatus @default(ABSENT)
+  selfieUrl   String?
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([employeeId, date])
+}
+
+model LeaveRequest {
+  id         String      @id @default(uuid())
+  employeeId String
+  employee   Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  type       LeaveType
+  startDate  DateTime    @db.Date
+  endDate    DateTime    @db.Date
+  reason     String?
+  status     LeaveStatus @default(PENDING)
+  adminNote  String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model PublicHoliday {
+  id        String   @id @default(uuid())
+  name      String
+  date      DateTime @db.Date
+  recurring Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String   // e.g. CREATE_EMPLOYEE, DELETE_EMPLOYEE, APPROVE_LEAVE
+  entity     String   // e.g. Employee, Attendance, LeaveRequest
+  entityId   String?
+  details    Json?    // before/after snapshot or relevant fields
+  adminId    String?
+  admin      Employee? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+}
+
+model Setting {
+  id             String  @id @default(uuid())
+  officeLatitude  Float?
+  officeLongitude Float?
+  officeRadius    Int     @default(200)
+  officeName      String  @default("Bureau Principal")
+}
+
+enum Role {
+  EMPLOYEE
+  ADMIN
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  ABSENT
+}
+
+enum LeaveType {
+  MATERNITY
+  SICK
+  PERSONAL
+  VACATION
+  MISSION
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
