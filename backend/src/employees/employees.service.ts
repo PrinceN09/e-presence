@@ -272,11 +272,11 @@ export class EmployeesService {
           },
         });
         imported++;
-        // Send welcome email (non-blocking)
-        if (email) {
-          const frontendUrl = this.config.get<string>('FRONTEND_URL') || 'http://localhost:3000';
-        this.emailService.sendWelcome(email, name, matricule, frontendUrl).catch(() => {});
-        }
+        // Welcome email disabled for bulk import
+        // if (email) {
+        //   const frontendUrl = this.config.get<string>('FRONTEND_URL') || 'http://localhost:3000';
+        //   this.emailService.sendWelcome(email, name, matricule, frontendUrl).catch(() => {});
+        // }
       } catch (e: any) {
         errors.push(`Ligne ${rowNum}: ${name} — ${e.message}`);
         skipped++;

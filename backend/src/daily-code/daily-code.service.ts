@@ -29,6 +29,10 @@ export class DailyCodeService {
 
   async getTodayCode() {
     const today = startOfDay(new Date());
+    // Sunday (0) = no work, no code
+    if (new Date().getDay() === 0) {
+      return this.prisma.dailyCode.findUnique({ where: { date: today } }) ?? null;
+    }
     let record = await this.prisma.dailyCode.findUnique({ where: { date: today } });
     if (!record) record = await this.generateAndSave();
     return record;
@@ -64,7 +68,9 @@ export class DailyCodeService {
   }
 
   async validateCode(code: string): Promise<boolean> {
+    if (new Date().getDay() === 0) return false; // No attendance on Sundays
     const today = await this.getTodayCode();
+    if (!today) return false;
     return today.code === code.toUpperCase();
   }
 
@@ -104,8 +110,8 @@ export class DailyCodeService {
     this.logger.log(`Code ${code} sent — SMS: ${smsSent}, Email: ${emailSent}`);
   }
 
-  // Auto-generate at 7:00 AM every weekday
-  @Cron('0 7 * * 1-5')
+  // Auto-generate at 7:00 AM Monday–Saturday
+  @Cron('0 7 * * 1-6')
   async scheduledGeneration() {
     this.logger.log('Generating daily attendance code...');
     const record = await this.generateAndSave();
