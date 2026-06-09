@@ -15,7 +15,7 @@ const empSchema = z.object({
   name: z.string().min(2),
   grade: z.string().min(1),
   gradeLabel: z.string().optional(),
-  phone: z.string().min(8),
+  phone: z.string().optional().or(z.literal('')),
   email: z.string().email().optional().or(z.literal('')),
   departmentId: z.string().min(1),
   role: z.enum(['EMPLOYEE', 'ADMIN']).default('EMPLOYEE'),
@@ -303,8 +303,8 @@ export default function EmployeesPage() {
                 { name: 'name', label: 'Nom & Prénom', placeholder: 'Odia Tshimanga Dorcas', col2: true },
                 { name: 'grade', label: 'Grade', placeholder: '200' },
                 { name: 'gradeLabel', label: 'Libellé grade', placeholder: 'ATA2 — Attaché...' },
-                { name: 'phone', label: 'Téléphone', placeholder: '+243810000000' },
-                { name: 'email', label: 'Email', placeholder: 'employee@example.com' },
+                { name: 'phone', label: 'Téléphone (optionnel)', placeholder: '+243810000000' },
+                { name: 'email', label: 'Email (optionnel)', placeholder: 'employee@example.com' },
               ].map(({ name, label, placeholder, col2, disabled }: any) => (
                 <div key={name} className={col2 ? 'col-span-2' : ''}>
                   <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>

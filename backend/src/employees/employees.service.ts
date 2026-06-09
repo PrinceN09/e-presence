@@ -16,7 +16,7 @@ export class CreateEmployeeDto {
   @IsString() name: string;
   @IsString() grade: string;
   @IsOptional() @IsString() gradeLabel?: string;
-  @IsString() phone: string;
+  @IsOptional() @IsString() phone?: string;
   @IsOptional() @IsString() email?: string;
   @IsString() departmentId: string;
   @IsOptional() @IsString() password?: string;
@@ -75,15 +75,11 @@ export class EmployeesService {
   }
 
   async create(dto: CreateEmployeeDto, adminId?: string) {
-    const existing = await this.prisma.employee.findFirst({
-      where: {
-        OR: [
-          { matricule: dto.matricule },
-          { phone: dto.phone },
-          ...(dto.email ? [{ email: dto.email }] : []),
-        ],
-      },
-    });
+    const orConditions: any[] = [{ matricule: dto.matricule }];
+    if (dto.phone) orConditions.push({ phone: dto.phone });
+    if (dto.email) orConditions.push({ email: dto.email });
+
+    const existing = await this.prisma.employee.findFirst({ where: { OR: orConditions } });
     if (existing) {
       throw new ConflictException(
         existing.matricule === dto.matricule
@@ -101,7 +97,7 @@ export class EmployeesService {
         name: dto.name,
         grade: dto.grade,
         gradeLabel: dto.gradeLabel || undefined,
-        phone: dto.phone,
+        phone: dto.phone || null,
         email: dto.email || null,
         password,
         role: dto.role || 'EMPLOYEE',
@@ -163,7 +159,7 @@ export class EmployeesService {
       { header: 'Nom & Prénom *', key: 'name', width: 30 },
       { header: 'Grade *', key: 'grade', width: 10 },
       { header: 'Libellé Grade', key: 'gradeLabel', width: 35 },
-      { header: 'Téléphone *', key: 'phone', width: 18 },
+      { header: 'Téléphone', key: 'phone', width: 18 },
       { header: 'Email', key: 'email', width: 28 },
       { header: 'Département *', key: 'department', width: 25 },
     ];
@@ -184,7 +180,7 @@ export class EmployeesService {
 
     // Note row
     sheet.addRow([]);
-    const note = sheet.addRow(['* Champs obligatoires. Le mot de passe initial = Matricule. Département doit correspondre exactement au nom dans l\'application.']);
+    const note = sheet.addRow(['* Champs obligatoires: Matricule, Nom, Grade, Département. Téléphone et Email sont optionnels. Le mot de passe initial = Matricule.']);
     note.getCell(1).font = { italic: true, color: { argb: 'FF888888' } };
     sheet.mergeCells(`A${note.number}:G${note.number}`);
 
@@ -233,9 +229,9 @@ export class EmployeesService {
       // Skip empty rows
       if (!matricule && !name) continue;
 
-      // Validate required fields
-      if (!matricule || !name || !grade || !phone || !deptName) {
-        errors.push(`Ligne ${rowNum}: champs obligatoires manquants (matricule, nom, grade, téléphone, département)`);
+      // Validate required fields (phone and email are optional)
+      if (!matricule || !name || !grade || !deptName) {
+        errors.push(`Ligne ${rowNum}: champs obligatoires manquants (matricule, nom, grade, département)`);
         skipped++;
         continue;
       }
@@ -249,10 +245,11 @@ export class EmployeesService {
         deptMap.set(deptName.toLowerCase().trim(), deptId);
       }
 
-      // Check duplicate
-      const existing = await this.prisma.employee.findFirst({
-        where: { OR: [{ matricule }, { phone }] },
-      });
+      // Check duplicate — only check phone if provided
+      const orConditions: any[] = [{ matricule }];
+      if (phone) orConditions.push({ phone });
+      if (email) orConditions.push({ email });
+      const existing = await this.prisma.employee.findFirst({ where: { OR: orConditions } });
       if (existing) {
         errors.push(`Ligne ${rowNum}: ${name} (${matricule}) — déjà existant, ignoré`);
         skipped++;
@@ -267,7 +264,7 @@ export class EmployeesService {
             name,
             grade,
             gradeLabel: gradeLabel || undefined,
-            phone,
+            phone: phone || null,
             email: email || null,
             password: hashed,
             role: 'EMPLOYEE',
