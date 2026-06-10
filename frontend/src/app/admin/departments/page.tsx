@@ -70,7 +70,7 @@ export default function DepartmentsPage() {
 
       {/* Add form */}
       {showForm && (
-        <div className="bg-white rounded-xl p-5 shadow-sm border border-[#1E3A5F]/20">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-[#1E3A5F]/20">
           <h2 className="font-medium text-gray-800 mb-3">Nouveau département</h2>
           <div className="flex gap-3">
             <input
@@ -79,7 +79,7 @@ export default function DepartmentsPage() {
               onChange={(e) => setNewName(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && newName.trim()) createMut.mutate(); if (e.key === 'Escape') setShowForm(false); }}
               placeholder="Ex: Division Unique, Ressources Humaines..."
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
             <button
               onClick={() => { if (newName.trim()) createMut.mutate(); }}
@@ -89,7 +89,7 @@ export default function DepartmentsPage() {
               {createMut.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
               Ajouter
             </button>
-            <button onClick={() => setShowForm(false)} className="p-2 text-gray-400 hover:text-gray-600">
+            <button onClick={() => setShowForm(false)} className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-300">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -97,7 +97,7 @@ export default function DepartmentsPage() {
       )}
 
       {/* List */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (departments as any[]).length === 0 ? (
@@ -135,7 +135,7 @@ export default function DepartmentsPage() {
                   </div>
                 ) : (
                   <div className="flex-1">
-                    <p className="font-medium text-gray-800">{dept.name}</p>
+                    <p className="font-medium text-gray-800 dark:text-white">{dept.name}</p>
                     <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
                       <Users className="w-3 h-3" />
                       {dept._count?.employees ?? 0} employé{(dept._count?.employees ?? 0) !== 1 ? 's' : ''}

@@ -35,6 +35,12 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
+  // Health check endpoint — used by CI/CD pipeline
+  const httpAdapter = app.getHttpAdapter();
+  httpAdapter.get('/api/health', (_req: any, res: any) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  });
+
   const config = new DocumentBuilder()
     .setTitle('e-Présence API')
     .setDescription('Time & Attendance Management System')

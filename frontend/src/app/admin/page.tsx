@@ -33,8 +33,8 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Tableau de bord</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
           {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace(/\b\w/g, (c) => c.toUpperCase())}
         </p>
       </div>
@@ -46,16 +46,16 @@ export default function AdminDashboard() {
             <div className={`w-10 h-10 ${color} rounded-xl flex items-center justify-center mb-3`}>
               <Icon className="w-5 h-5 text-white" />
             </div>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
-            <p className="text-sm text-gray-500 mt-1">{label}</p>
+            <p className="text-3xl font-bold text-gray-800 dark:text-white">{value}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Chart + Rate */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <h2 className="font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
             Répartition d&apos;aujourd&apos;hui
           </h2>
@@ -74,8 +74,8 @@ export default function AdminDashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center">
-          <p className="text-gray-500 text-sm mb-2">Taux de présence</p>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">Taux de présence</p>
           <div className="relative w-32 h-32">
             <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
               <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f0f0f0" strokeWidth="3" />
@@ -88,10 +88,10 @@ export default function AdminDashboard() {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold text-gray-800">{attendanceRate}%</span>
+              <span className="text-2xl font-bold text-gray-800 dark:text-white">{attendanceRate}%</span>
             </div>
           </div>
-          <p className="text-sm text-gray-500 mt-2 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
             {stats ? `${stats.present + stats.late} / ${stats.totalEmployees} employés présents` : ''}
           </p>
         </div>

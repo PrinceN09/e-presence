@@ -38,7 +38,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Top bar */}
       <header className="bg-[#1E3A5F] text-white shadow">
         <div className="w-full max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -60,7 +60,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
       </header>
 
       {/* Nav */}
-      <nav className="bg-white border-b">
+      <nav className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
         <div className="w-full max-w-2xl mx-auto px-4">
           <div className="flex gap-1">
             {navItems.map(({ href, label, icon: Icon }) => (
@@ -71,7 +71,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
                   'flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors',
                   pathname === href
                     ? 'border-[#1E3A5F] text-[#1E3A5F]'
-                    : 'border-transparent text-gray-500 hover:text-gray-800',
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white',
                 )}
               >
                 <Icon className="w-4 h-4" />

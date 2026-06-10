@@ -124,11 +124,11 @@ export default function EmployeesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Gestion des Employés</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestion des Employés</h1>
         <div className="flex items-center gap-2">
           <button
             onClick={() => downloadEmployeeTemplate().catch(() => toast.error('Erreur téléchargement'))}
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
             title="Télécharger le modèle Excel"
           >
             <Download className="w-4 h-4" />
@@ -157,13 +157,13 @@ export default function EmployeesPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           />
         </div>
         <select
           value={deptFilter}
           onChange={(e) => setDeptFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
         >
           <option value="">Tous les départements</option>
           {departments.map((d: any) => (
@@ -173,7 +173,7 @@ export default function EmployeesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (
@@ -187,17 +187,17 @@ export default function EmployeesPage() {
             </thead>
             <tbody className="divide-y">
               {filtered.map((emp: any) => (
-                <tr key={emp.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 text-sm font-mono text-gray-700">{emp.matricule}</td>
+                <tr key={emp.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td className="px-4 py-3 text-sm font-mono text-gray-700 dark:text-gray-200">{emp.matricule}</td>
                   <td className="px-4 py-3">
-                    <div className="font-medium text-sm text-gray-800">{emp.name}</div>
+                    <div className="font-medium text-sm text-gray-800 dark:text-white">{emp.name}</div>
                     <div className="text-xs text-gray-400">{emp.role === 'ADMIN' ? 'Admin' : 'Employé'}</div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
+                  <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                     <span title={emp.gradeLabel || ''}>{emp.grade}</span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{emp.department?.name}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{emp.phone}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{emp.department?.name}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{emp.phone}</td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${emp.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
                       {emp.isActive ? 'Actif' : 'Inactif'}
@@ -240,10 +240,10 @@ export default function EmployeesPage() {
       {/* Import Results Modal */}
       {importResult && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-gray-800">Résultat de l&apos;importation</h2>
-              <button onClick={() => setImportResult(null)} className="text-gray-400 hover:text-gray-600">
+              <h2 className="font-semibold text-gray-800 dark:text-white">Résultat de l&apos;importation</h2>
+              <button onClick={() => setImportResult(null)} className="text-gray-400 hover:text-gray-600 dark:text-gray-300">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -291,10 +291,10 @@ export default function EmployeesPage() {
       {/* Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-gray-800">{editing ? 'Modifier l\'employé' : 'Ajouter un employé'}</h2>
-              <button onClick={closeForm} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+              <h2 className="font-semibold text-gray-800 dark:text-white">{editing ? 'Modifier l\'employé' : 'Ajouter un employé'}</h2>
+              <button onClick={closeForm} className="text-gray-400 hover:text-gray-600 dark:text-gray-300"><X className="w-5 h-5" /></button>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
@@ -312,7 +312,7 @@ export default function EmployeesPage() {
                     {...register(name as keyof EmpForm)}
                     placeholder={placeholder}
                     disabled={disabled}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] disabled:bg-gray-50"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] disabled:bg-gray-50 dark:bg-gray-700"
                   />
                   {errors[name as keyof EmpForm] && (
                     <p className="text-red-500 text-xs mt-0.5">{(errors[name as keyof EmpForm] as any)?.message}</p>
@@ -322,7 +322,7 @@ export default function EmployeesPage() {
 
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Département</label>
-                <select {...register('departmentId')} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                <select {...register('departmentId')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
                   <option value="">Sélectionner...</option>
                   {departments.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
                 </select>
@@ -331,14 +331,14 @@ export default function EmployeesPage() {
 
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Rôle</label>
-                <select {...register('role')} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                <select {...register('role')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
                   <option value="EMPLOYEE">Employé</option>
                   <option value="ADMIN">Administrateur</option>
                 </select>
               </div>
 
               <div className="col-span-2 flex justify-end gap-3 mt-2">
-                <button type="button" onClick={closeForm} className="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                <button type="button" onClick={closeForm} className="px-4 py-2 text-sm text-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                   Annuler
                 </button>
                 <button

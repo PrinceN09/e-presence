@@ -112,9 +112,9 @@ export default function NotificationBell({ floating = false }: { floating?: bool
       {bellBtn}
 
       {open && (
-        <div className={`absolute ${dropdownPos} w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden`}>
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-            <span className="font-semibold text-gray-800 text-sm">Notifications</span>
+        <div className={`absolute ${dropdownPos} w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden`}>
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+            <span className="font-semibold text-gray-800 dark:text-white text-sm">Notifications</span>
             <div className="flex items-center gap-2">
               {unread > 0 && (
                 <button onClick={markAllRead} title="Tout marquer comme lu" className="text-gray-400 hover:text-gray-600">
@@ -129,7 +129,7 @@ export default function NotificationBell({ floating = false }: { floating?: bool
 
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="py-10 text-center text-gray-400 text-sm">
+              <div className="py-10 text-center text-gray-400 dark:text-gray-500 text-sm">
                 <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
                 Aucune notification
               </div>
@@ -138,15 +138,15 @@ export default function NotificationBell({ floating = false }: { floating?: bool
                 <button
                   key={n.id}
                   onClick={() => handleClick(n)}
-                  className={`w-full text-left px-4 py-3 flex gap-3 border-b border-gray-50 hover:bg-gray-50 transition-colors ${!n.read ? 'bg-blue-50/40' : ''}`}
+                  className={`w-full text-left px-4 py-3 flex gap-3 border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${!n.read ? "bg-blue-50/40 dark:bg-blue-900/20" : ""}`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5 ${iconColor(n.type)}`}>
                     {n.type === 'LEAVE_APPROVED' ? '✓' : n.type === 'LEAVE_REJECTED' ? '✗' : '!'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm ${!n.read ? 'font-semibold text-gray-800' : 'font-medium text-gray-700'}`}>{n.title}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{n.message}</p>
-                    <p className="text-xs text-gray-400 mt-1">{timeAgo(n.createdAt)}</p>
+                    <p className={``text-sm ${!n.read ? "font-semibold text-gray-800 dark:text-white" : "font-medium text-gray-700 dark:text-gray-300"}`'}`}>{n.title}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">{n.message}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{timeAgo(n.createdAt)}</p>
                   </div>
                   {!n.read && <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2" />}
                 </button>

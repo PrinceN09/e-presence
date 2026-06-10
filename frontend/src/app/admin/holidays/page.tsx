@@ -83,15 +83,15 @@ export default function HolidaysPage() {
 
       {/* Add form */}
       {showForm && (
-        <div className="bg-white rounded-xl p-5 shadow-sm border border-[#1E3A5F]/20 space-y-4">
-          <h2 className="font-medium text-gray-800">Nouveau jour férié</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-[#1E3A5F]/20 space-y-4">
+          <h2 className="font-medium text-gray-800 dark:text-white">Nouveau jour férié</h2>
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">Nom</label>
             <input
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               placeholder="Ex: Fête de l'Indépendance"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -101,7 +101,7 @@ export default function HolidaysPage() {
                 type="date"
                 value={form.date}
                 onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function HolidaysPage() {
               <select
                 value={form.recurring ? 'true' : 'false'}
                 onChange={(e) => setForm((f) => ({ ...f, recurring: e.target.value === 'true' }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               >
                 <option value="true">Tous les ans</option>
                 <option value="false">Date unique</option>
@@ -119,7 +119,7 @@ export default function HolidaysPage() {
           <div className="flex gap-3">
             <button
               onClick={() => setShowForm(false)}
-              className="px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 text-sm text-gray-500 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               Annuler
             </button>
@@ -136,7 +136,7 @@ export default function HolidaysPage() {
       )}
 
       {/* List */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : holidays.length === 0 ? (
@@ -155,9 +155,9 @@ export default function HolidaysPage() {
             </thead>
             <tbody className="divide-y">
               {holidays.map((h) => (
-                <tr key={h.id} className="hover:bg-gray-50">
-                  <td className="px-5 py-3.5 font-medium text-gray-800">{h.name}</td>
-                  <td className="px-5 py-3.5 text-sm text-gray-600">{formatDate(h.date)}</td>
+                <tr key={h.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td className="px-5 py-3.5 font-medium text-gray-800 dark:text-white">{h.name}</td>
+                  <td className="px-5 py-3.5 text-sm text-gray-600 dark:text-gray-300">{formatDate(h.date)}</td>
                   <td className="px-5 py-3.5">
                     {h.recurring ? (
                       <span className="inline-flex items-center gap-1 text-xs text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">

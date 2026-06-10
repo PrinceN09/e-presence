@@ -75,13 +75,13 @@ export default function AuditPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm flex flex-wrap gap-3 items-center">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm flex flex-wrap gap-3 items-center">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <select
             value={actionFilter}
             onChange={(e) => setActionFilter(e.target.value)}
-            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           >
             <option value="">Toutes les actions</option>
             {Object.entries(ACTION_LABELS).map(([key, { label }]) => (
@@ -89,20 +89,20 @@ export default function AuditPage() {
             ))}
           </select>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <span>Du</span>
           <input
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           />
           <span>au</span>
           <input
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           />
         </div>
         {(from || to || actionFilter) && (
@@ -116,13 +116,13 @@ export default function AuditPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (
           <>
             <div className="px-4 py-3 bg-gray-50 border-b">
-              <span className="text-sm text-gray-500">{logs.length} entrée(s)</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{logs.length} entrée(s)</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -137,7 +137,7 @@ export default function AuditPage() {
                   {logs.map((log: any) => {
                     const badge = ACTION_LABELS[log.action] ?? { label: log.action, color: 'bg-gray-100 text-gray-600' };
                     return (
-                      <tr key={log.id} className="hover:bg-gray-50">
+                      <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-4 py-3 text-sm font-mono text-gray-600 whitespace-nowrap">
                           {formatDateTime(log.createdAt)}
                         </td>
@@ -146,8 +146,8 @@ export default function AuditPage() {
                             {badge.label}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{log.entity}</td>
-                        <td className="px-4 py-3 text-sm text-gray-700">
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{log.entity}</td>
+                        <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">
                           {log.admin ? (
                             <span>
                               {log.admin.name}

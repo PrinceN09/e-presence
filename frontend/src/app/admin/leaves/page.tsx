@@ -40,7 +40,7 @@ export default function LeavesPage() {
     { value: 'PENDING',  label: 'En attente',  color: 'text-yellow-700 bg-yellow-50 border-yellow-200' },
     { value: 'APPROVED', label: 'Approuvés',   color: 'text-green-700 bg-green-50 border-green-200' },
     { value: 'REJECTED', label: 'Refusés',     color: 'text-red-600 bg-red-50 border-red-200' },
-    { value: '',         label: 'Tous',         color: 'text-gray-600 bg-gray-50 border-gray-200' },
+    { value: '',         label: 'Tous',         color: 'text-gray-600 bg-gray-50 border-gray-200 dark:border-gray-700' },
   ];
 
   return (
@@ -57,7 +57,7 @@ export default function LeavesPage() {
             key={f.value}
             onClick={() => setFilter(f.value)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              filter === f.value ? f.color : 'text-gray-500 bg-white border-gray-200 hover:border-gray-300'
+              filter === f.value ? f.color : 'text-gray-500 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:border-gray-600'
             }`}
           >
             {f.label}
@@ -66,9 +66,9 @@ export default function LeavesPage() {
       </div>
 
       {isLoading ? (
-        <div className="bg-white rounded-2xl p-8 text-center text-gray-400">Chargement...</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center text-gray-400">Chargement...</div>
       ) : (leaves as any[]).length === 0 ? (
-        <div className="bg-white rounded-2xl p-8 text-center text-gray-400">Aucune demande</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center text-gray-400">Aucune demande</div>
       ) : (
         <div className="space-y-3">
           {(leaves as any[]).map((lr: any) => {
@@ -77,7 +77,7 @@ export default function LeavesPage() {
             const days = Math.ceil((new Date(lr.endDate).getTime() - new Date(lr.startDate).getTime()) / 86400000) + 1;
 
             return (
-              <div key={lr.id} className="bg-white rounded-2xl shadow-sm p-5">
+              <div key={lr.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5">
                 <div className="flex items-start gap-4">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${typeInfo.color}`}>
                     <Icon className="w-5 h-5" />
@@ -103,7 +103,7 @@ export default function LeavesPage() {
 
                     <div className="flex flex-wrap items-center gap-3 mt-2">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${typeInfo.color}`}>{typeInfo.label}</span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {format(new Date(lr.startDate), 'dd MMM yyyy', { locale: fr })}
                         {lr.startDate !== lr.endDate && <> → {format(new Date(lr.endDate), 'dd MMM yyyy', { locale: fr })}</>}
                         <span className="text-gray-400 ml-1">({days} jour{days > 1 ? 's' : ''})</span>
@@ -120,7 +120,7 @@ export default function LeavesPage() {
                           placeholder="Note admin (optionnel)"
                           value={notes[lr.id] || ''}
                           onChange={(e) => setNotes((n) => ({ ...n, [lr.id]: e.target.value }))}
-                          className="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]"
+                          className="flex-1 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]"
                         />
                         <div className="flex gap-2">
                           <button

@@ -55,7 +55,7 @@ export default function SettingsPage() {
         Paramètres
       </h1>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
         <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <MapPin className="w-4 h-4 text-[#1E3A5F]" />
           Localisation du Bureau
@@ -69,7 +69,7 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Nom du bureau</label>
             <input
               {...register('officeName')}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               placeholder="Bureau Principal"
             />
           </div>
@@ -79,7 +79,7 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
               <input
                 {...register('officeLatitude')}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono"
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono"
                 placeholder="-4.3217"
               />
             </div>
@@ -87,7 +87,7 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
               <input
                 {...register('officeLongitude')}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono"
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono"
                 placeholder="15.3222"
               />
             </div>
@@ -102,7 +102,7 @@ export default function SettingsPage() {
               type="number"
               min="50"
               max="5000"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               placeholder="200"
             />
             <p className="text-xs text-gray-400 mt-1">Recommandé: 100–500m selon la taille du site</p>

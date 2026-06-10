@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
       className="min-h-screen flex flex-col items-center justify-center px-4"
       style={{ background: 'radial-gradient(ellipse at top, #1a3a6b 0%, #0d1f3c 50%, #080f1e 100%)' }}
     >
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl px-10 py-10">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl px-10 py-10">
         <div className="flex justify-center mb-6">
           <div className="w-14 h-14 rounded-2xl bg-[#1E3A5F] flex items-center justify-center shadow-md">
             <Mail className="w-7 h-7 text-white" />
@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
             <p className="text-sm text-gray-500 mb-2">
               Si <strong>{email}</strong> est enregistré dans le système, vous recevrez un lien de réinitialisation.
             </p>
-            <p className="text-xs text-gray-400">Le lien expire dans 2 heures. Vérifiez aussi vos spams.</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500">Le lien expire dans 2 heures. Vérifiez aussi vos spams.</p>
           </div>
         )}
 

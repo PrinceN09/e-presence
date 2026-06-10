@@ -120,7 +120,7 @@ export default function AttendancePage() {
       </h1>
 
       {/* Period mode tabs */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm space-y-3">
         <div className="flex gap-2 flex-wrap">
           {(['day', 'week', 'month', 'custom'] as PeriodMode[]).map((m) => (
             <button
@@ -144,17 +144,17 @@ export default function AttendancePage() {
               type="date"
               value={singleDate}
               onChange={(e) => setSingleDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
           )}
           {mode === 'week' && (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <span>Semaine du</span>
               <input
                 type="date"
                 value={singleDate}
                 onChange={(e) => setSingleDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               />
               {(() => {
                 const { start, end } = getWeekRange(new Date(singleDate));
@@ -167,7 +167,7 @@ export default function AttendancePage() {
               type="month"
               value={singleDate.slice(0, 7)}
               onChange={(e) => setSingleDate(`${e.target.value}-01`)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
           )}
           {mode === 'custom' && (
@@ -176,14 +176,14 @@ export default function AttendancePage() {
                 type="date"
                 value={customStart}
                 onChange={(e) => setCustomStart(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               />
               <span className="text-gray-400">→</span>
               <input
                 type="date"
                 value={customEnd}
                 onChange={(e) => setCustomEnd(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
               />
             </div>
           )}
@@ -195,13 +195,13 @@ export default function AttendancePage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Nom ou matricule..."
-              className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] w-48"
+              className="pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] w-48"
             />
           </div>
           <select
             value={deptFilter}
             onChange={(e) => setDeptFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           >
             <option value="">Tous les depts</option>
             {departments.map((d: any) => (
@@ -211,7 +211,7 @@ export default function AttendancePage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           >
             <option value="">Tous les statuts</option>
             <option value="PRESENT">Présent</option>
@@ -224,48 +224,48 @@ export default function AttendancePage() {
       {/* Summary cards — shown when there are records with hours */}
       {recordsWithHours.some((r: any) => r.hours !== null) && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm flex items-center gap-3">
             <Clock className="w-8 h-8 text-[#1E3A5F] shrink-0" />
             <div>
-              <p className="text-xs text-gray-500">Heures travaillées</p>
-              <p className="text-xl font-bold text-gray-800">{fmtHours(summary.totalHours)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Heures travaillées</p>
+              <p className="text-xl font-bold text-gray-800 dark:text-white">{fmtHours(summary.totalHours)}</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm flex items-center gap-3">
             <CalendarCheck className="w-8 h-8 text-blue-500 shrink-0" />
             <div>
-              <p className="text-xs text-gray-500">Heures attendues</p>
-              <p className="text-xl font-bold text-gray-800">{fmtHours(summary.expectedHours)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Heures attendues</p>
+              <p className="text-xl font-bold text-gray-800 dark:text-white">{fmtHours(summary.expectedHours)}</p>
               <p className="text-xs text-gray-400">{summary.workDays} jour(s) × {STANDARD_HOURS}h</p>
             </div>
           </div>
           <div className={`rounded-2xl p-4 shadow-sm flex items-center gap-3 ${summary.overtime > 0 ? 'bg-amber-50' : 'bg-white'}`}>
             <TrendingUp className={`w-8 h-8 shrink-0 ${summary.overtime > 0 ? 'text-amber-500' : 'text-gray-300'}`} />
             <div>
-              <p className="text-xs text-gray-500">Heures sup.</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Heures sup.</p>
               <p className={`text-xl font-bold ${summary.overtime > 0 ? 'text-amber-600' : 'text-gray-400'}`}>
                 {fmtHours(summary.overtime)}
               </p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm flex items-center gap-3">
             <AlertCircle className="w-8 h-8 text-gray-400 shrink-0" />
             <div>
-              <p className="text-xs text-gray-500">Moy. / jour</p>
-              <p className="text-xl font-bold text-gray-800">{fmtHours(summary.avgPerDay)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Moy. / jour</p>
+              <p className="text-xl font-bold text-gray-800 dark:text-white">{fmtHours(summary.avgPerDay)}</p>
             </div>
           </div>
         </div>
       )}
 
       {/* Table */}
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (
           <>
             <div className="px-4 py-3 bg-gray-50 border-b flex items-center justify-between">
-              <span className="text-sm text-gray-500">{records.length} enregistrement(s)</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{records.length} enregistrement(s)</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -281,13 +281,13 @@ export default function AttendancePage() {
                     const { label, color } = getStatusBadge(rec.status);
                     const ot = rec.hours !== null ? Math.max(0, rec.hours - STANDARD_HOURS) : null;
                     return (
-                      <tr key={rec.id} className="hover:bg-gray-50">
+                      <tr key={rec.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">{formatDate(rec.date)}</td>
-                        <td className="px-4 py-3 text-sm font-mono text-gray-600">{rec.employee?.matricule}</td>
+                        <td className="px-4 py-3 text-sm font-mono text-gray-600 dark:text-gray-300">{rec.employee?.matricule}</td>
                         <td className="px-4 py-3 text-sm font-medium text-gray-800 whitespace-nowrap">{rec.employee?.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{rec.employee?.department?.name}</td>
-                        <td className="px-4 py-3 text-sm font-mono text-gray-600">{formatTime(rec.signInAt)}</td>
-                        <td className="px-4 py-3 text-sm font-mono text-gray-600">
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{rec.employee?.department?.name}</td>
+                        <td className="px-4 py-3 text-sm font-mono text-gray-600 dark:text-gray-300">{formatTime(rec.signInAt)}</td>
+                        <td className="px-4 py-3 text-sm font-mono text-gray-600 dark:text-gray-300">
                           {rec.lunchOutAt ? (
                             <span>
                               {formatTime(rec.lunchOutAt)}
@@ -295,8 +295,8 @@ export default function AttendancePage() {
                             </span>
                           ) : '—'}
                         </td>
-                        <td className="px-4 py-3 text-sm font-mono text-gray-600">{formatTime(rec.signOutAt)}</td>
-                        <td className="px-4 py-3 text-sm font-mono font-semibold text-gray-700">{fmtHours(rec.hours)}</td>
+                        <td className="px-4 py-3 text-sm font-mono text-gray-600 dark:text-gray-300">{formatTime(rec.signOutAt)}</td>
+                        <td className="px-4 py-3 text-sm font-mono font-semibold text-gray-700 dark:text-gray-200">{fmtHours(rec.hours)}</td>
                         <td className="px-4 py-3 text-sm font-mono">
                           {ot !== null && ot > 0 ? (
                             <span className="text-amber-600 font-semibold">+{fmtHours(ot)}</span>

@@ -46,7 +46,7 @@ export default function ReportsPage() {
         Rapports
       </h1>
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm space-y-6">
         {/* Type */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">Type de rapport</label>
@@ -62,7 +62,7 @@ export default function ReportsPage() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
                   type === value
                     ? 'bg-[#1E3A5F] text-white border-[#1E3A5F]'
-                    : 'bg-white text-gray-600 border-gray-300 hover:border-gray-400'
+                    : 'bg-white text-gray-600 border-gray-300 dark:border-gray-600 hover:border-gray-400'
                 }`}
               >
                 {label}
@@ -80,7 +80,7 @@ export default function ReportsPage() {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
           />
         </div>
 
@@ -127,7 +127,7 @@ export default function ReportsPage() {
                 <select
                   value={emailFormat}
                   onChange={(e) => setEmailFormat(e.target.value as 'pdf' | 'excel')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
                 >
                   <option value="pdf">PDF</option>
                   <option value="excel">Excel</option>
@@ -140,7 +140,7 @@ export default function ReportsPage() {
                   value={recipientName}
                   onChange={(e) => setRecipientName(e.target.value)}
                   placeholder="Ex: Secrétaire Général"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
                 />
               </div>
               <div className="col-span-2">
@@ -150,7 +150,7 @@ export default function ReportsPage() {
                   value={recipientEmail}
                   onChange={(e) => setRecipientEmail(e.target.value)}
                   placeholder="secretaire@organisation.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
                 />
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function ReportsPage() {
               <button
                 type="button"
                 onClick={() => setShowEmailForm(false)}
-                className="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 bg-white"
+                className="px-4 py-2 text-sm text-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 bg-white"
               >
                 Annuler
               </button>

@@ -42,7 +42,7 @@ function ResetPasswordForm() {
   if (!token) return null;
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl px-10 py-10">
+    <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl px-10 py-10">
       <div className="flex justify-center mb-6">
         <div className="w-14 h-14 rounded-2xl bg-[#1E3A5F] flex items-center justify-center shadow-md">
           <KeyRound className="w-7 h-7 text-white" />
@@ -65,7 +65,7 @@ function ResetPasswordForm() {
                   placeholder="Min. 6 caractères"
                   className="w-full px-4 py-3 pr-11 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#1E3A5F] focus:ring-1 focus:ring-[#1E3A5F]"
                 />
-                <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
                   {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>

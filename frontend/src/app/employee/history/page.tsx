@@ -40,9 +40,9 @@ export default function HistoryPage() {
       </h1>
 
       {isLoading ? (
-        <div className="bg-white rounded-2xl p-8 text-center text-gray-400">Chargement...</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center text-gray-400">Chargement...</div>
       ) : !data?.length ? (
-        <div className="bg-white rounded-2xl p-8 text-center text-gray-400">Aucun historique disponible</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center text-gray-400">Aucun historique disponible</div>
       ) : (
         <div className="space-y-3">
           {data.map((rec: any) => {
@@ -52,7 +52,7 @@ export default function HistoryPage() {
             const lunchOngoing = rec.lunchOutAt && !rec.lunchInAt;
 
             return (
-              <div key={rec.id} className="bg-white rounded-2xl shadow-sm p-4 space-y-3">
+              <div key={rec.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-4 space-y-3">
                 {/* Date + status row */}
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-gray-800 text-sm">{formatDate(rec.date)}</span>
@@ -68,7 +68,7 @@ export default function HistoryPage() {
                     <LogIn className="w-4 h-4 text-green-600 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400">Arrivée</p>
-                      <p className="text-sm font-mono font-medium text-gray-800">
+                      <p className="text-sm font-mono font-medium text-gray-800 dark:text-white">
                         {formatTime(rec.signInAt) || '—'}
                       </p>
                     </div>
@@ -79,7 +79,7 @@ export default function HistoryPage() {
                     <LogOut className="w-4 h-4 text-red-500 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400">Départ</p>
-                      <p className="text-sm font-mono font-medium text-gray-800">
+                      <p className="text-sm font-mono font-medium text-gray-800 dark:text-white">
                         {formatTime(rec.signOutAt) || '—'}
                       </p>
                     </div>
@@ -90,7 +90,7 @@ export default function HistoryPage() {
                     <Coffee className="w-4 h-4 text-orange-500 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400">Pause</p>
-                      <p className="text-sm font-mono font-medium text-gray-800">
+                      <p className="text-sm font-mono font-medium text-gray-800 dark:text-white">
                         {rec.lunchOutAt
                           ? lunchOngoing
                             ? `${formatTime(rec.lunchOutAt)} (en cours)`
@@ -105,7 +105,7 @@ export default function HistoryPage() {
                     <Clock className="w-4 h-4 text-blue-500 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400">Temps travaillé</p>
-                      <p className="text-sm font-mono font-medium text-gray-800">{duration}</p>
+                      <p className="text-sm font-mono font-medium text-gray-800 dark:text-white">{duration}</p>
                     </div>
                   </div>
                 </div>

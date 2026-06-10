@@ -51,7 +51,7 @@ export default function LoginPage() {
       }}
     >
       {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl px-10 py-10">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl px-10 py-10">
 
         {/* Logo */}
         <div className="flex justify-center mb-6">
@@ -65,13 +65,13 @@ export default function LoginPage() {
               </svg>
             </div>
             <div className="text-center">
-              <p className="font-bold text-[#1E3A5F] text-lg leading-none">e-Présence</p>
-              <p className="text-gray-400 text-xs mt-0.5">Gestion des Présences</p>
+              <p className="font-bold text-[#1E3A5F] dark:text-white text-lg leading-none">e-Présence</p>
+              <p className="text-gray-400 dark:text-gray-400 text-xs mt-0.5">Gestion des Présences</p>
             </div>
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 text-center mb-6">Bienvenue</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6">Bienvenue</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Matricule */}
@@ -80,7 +80,7 @@ export default function LoginPage() {
               {...register('matricule')}
               placeholder="Numéro matricule"
               autoComplete="username"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E3A5F] focus:ring-1 focus:ring-[#1E3A5F] transition-colors"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#1E3A5F] focus:ring-1 focus:ring-[#1E3A5F] transition-colors"
             />
             {errors.matricule && (
               <p className="text-red-500 text-xs mt-1">{errors.matricule.message}</p>
@@ -94,7 +94,7 @@ export default function LoginPage() {
               type={showPassword ? 'text' : 'password'}
               placeholder="Mot de passe"
               autoComplete="current-password"
-              className="w-full px-4 py-3 pr-11 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E3A5F] focus:ring-1 focus:ring-[#1E3A5F] transition-colors"
+              className="w-full px-4 py-3 pr-11 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#1E3A5F] focus:ring-1 focus:ring-[#1E3A5F] transition-colors"
             />
             <button
               type="button"
@@ -120,7 +120,7 @@ export default function LoginPage() {
         </form>
 
         <div className="text-center mt-5 space-y-2">
-          <p className="text-xs text-gray-400">Mot de passe par défaut = numéro de matricule</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500">Mot de passe par défaut = numéro de matricule</p>
           <Link href="/forgot-password" className="text-xs text-[#1E3A5F] hover:underline font-medium">
             Mot de passe oublié ?
           </Link>

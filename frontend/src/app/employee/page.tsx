@@ -86,7 +86,7 @@ function QrScanner({ onScan, onClose }: { onScan: (code: string) => void; onClos
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl overflow-hidden">
+      <div className="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 bg-[#1E3A5F] text-white">
           <p className="font-semibold text-sm">Scanner le QR code</p>
           <button onClick={onClose}><X className="w-5 h-5" /></button>
@@ -95,7 +95,7 @@ function QrScanner({ onScan, onClose }: { onScan: (code: string) => void; onClos
           <div className="p-6 text-center space-y-3">
             <AlertCircle className="w-10 h-10 text-red-400 mx-auto" />
             <p className="text-sm text-red-600">{error}</p>
-            <button onClick={onClose} className="w-full py-2.5 border border-gray-300 text-gray-600 rounded-xl text-sm">Fermer</button>
+            <button onClick={onClose} className="w-full py-2.5 border border-gray-300 dark:border-gray-600 text-gray-600 rounded-xl text-sm">Fermer</button>
           </div>
         ) : (
           <div className="relative bg-black aspect-square">
@@ -240,7 +240,7 @@ export default function EmployeePage() {
             { label: 'Pause', value: (status as any).lunchOutAt ? `${formatTime((status as any).lunchOutAt)}${(status as any).lunchInAt ? ' → ' + formatTime((status as any).lunchInAt) : ' (en cours)'}` : '—' },
             { label: 'Départ', value: formatTime(status.signOutAt) },
           ].map((item) => (
-            <div key={item.label} className="bg-white rounded-xl p-3 shadow-sm text-center">
+            <div key={item.label} className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm text-center">
               <p className="text-gray-400 text-xs">{item.label}</p>
               <p className={`font-semibold text-sm mt-1 ${item.color || 'text-gray-800'}`}>{item.value}</p>
             </div>
@@ -250,7 +250,7 @@ export default function EmployeePage() {
 
       {/* Sign In */}
       {!status?.signedIn && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm space-y-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm space-y-4">
           <h2 className="font-semibold text-gray-800 flex items-center gap-2">
             <LogIn className="w-5 h-5 text-[#1E3A5F]" /> Signer la présence
           </h2>
@@ -275,7 +275,7 @@ export default function EmployeePage() {
                 onKeyDown={(e) => { if (e.key === 'Enter') goToAttend(); }}
                 placeholder="Ex: AB3X9K"
                 maxLength={6}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono text-xl tracking-widest text-center uppercase"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] font-mono text-xl tracking-widest text-center uppercase"
               />
               <button
                 onClick={goToAttend}
@@ -291,8 +291,8 @@ export default function EmployeePage() {
 
       {/* Signed in actions */}
       {status?.signedIn && !status?.signedOut && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm space-y-4">
-          <h2 className="font-semibold text-gray-800">Actions du jour</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm space-y-4">
+          <h2 className="font-semibold text-gray-800 dark:text-white">Actions du jour</h2>
           <div className="border border-amber-200 bg-amber-50 rounded-xl p-4 space-y-3">
             <div className="flex items-center gap-2 text-amber-700 font-medium text-sm">
               <Coffee className="w-4 h-4" /> Pause déjeuner
@@ -338,9 +338,9 @@ export default function EmployeePage() {
       )}
 
       {/* Leave request */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm space-y-3">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-gray-800">Mes congés</h2>
+          <h2 className="font-semibold text-gray-800 dark:text-white">Mes congés</h2>
           <button onClick={() => setShowLeaveForm(!showLeaveForm)}
             className="flex items-center gap-1.5 text-sm text-[#1E3A5F] border border-[#1E3A5F] px-3 py-1.5 rounded-lg hover:bg-blue-50">
             <Plus className="w-3.5 h-3.5" /> Demander un congé
@@ -350,34 +350,34 @@ export default function EmployeePage() {
         {showLeaveForm && (
           <div className="border border-[#1E3A5F]/20 bg-blue-50 rounded-xl p-4 space-y-3">
             <div>
-              <label className="text-xs font-medium text-gray-600">Type de congé</label>
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Type de congé</label>
               <select value={leaveForm.type} onChange={(e) => setLeaveForm((f) => ({ ...f, type: e.target.value }))}
-                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]">
+                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]">
                 {LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-medium text-gray-600">Date de début</label>
+                <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Date de début</label>
                 <input type="date" value={leaveForm.startDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, startDate: e.target.value }))}
-                  className="w-full mt-1 h-10 px-2 border border-gray-300 rounded-lg text-xs text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Date de fin</label>
+                <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Date de fin</label>
                 <input type="date" value={leaveForm.endDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, endDate: e.target.value }))}
-                  className="w-full mt-1 h-10 px-2 border border-gray-300 rounded-lg text-xs text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-600">Motif (optionnel)</label>
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Motif (optionnel)</label>
               <input value={leaveForm.reason} onChange={(e) => setLeaveForm((f) => ({ ...f, reason: e.target.value }))}
                 placeholder="Raison de la demande"
-                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
             </div>
             <div className="flex gap-3">
-              <button onClick={() => setShowLeaveForm(false)} className="px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-white">Annuler</button>
+              <button onClick={() => setShowLeaveForm(false)} className="px-4 py-2 text-sm text-gray-500 border border-gray-300 dark:border-gray-600 rounded-lg bg-white">Annuler</button>
               <button onClick={() => submitLeave.mutate()}
                 disabled={submitLeave.isPending || !leaveForm.startDate || !leaveForm.endDate}
                 className="flex-1 py-2 bg-[#1E3A5F] text-white rounded-lg text-sm font-medium disabled:opacity-50 flex items-center justify-center gap-2">
@@ -395,7 +395,7 @@ export default function EmployeePage() {
             {(myLeaves as any[]).slice(0, 5).map((lr: any) => (
               <div key={lr.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0 text-sm">
                 <div>
-                  <p className="font-medium text-gray-800">{LEAVE_TYPES.find((t) => t.value === lr.type)?.label}</p>
+                  <p className="font-medium text-gray-800 dark:text-white">{LEAVE_TYPES.find((t) => t.value === lr.type)?.label}</p>
                   <p className="text-xs text-gray-400">
                     {new Date(lr.startDate).toLocaleDateString('fr-FR')} → {new Date(lr.endDate).toLocaleDateString('fr-FR')}
                   </p>

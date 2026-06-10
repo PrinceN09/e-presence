@@ -47,7 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Sidebar */}
       <aside className="w-64 bg-[#1E3A5F] text-white flex flex-col min-h-screen shrink-0">
         <div className="p-6 border-b border-white/10">
