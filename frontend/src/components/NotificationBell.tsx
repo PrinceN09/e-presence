@@ -144,7 +144,7 @@ export default function NotificationBell({ floating = false }: { floating?: bool
                     {n.type === 'LEAVE_APPROVED' ? '✓' : n.type === 'LEAVE_REJECTED' ? '✗' : '!'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={``text-sm ${!n.read ? "font-semibold text-gray-800 dark:text-white" : "font-medium text-gray-700 dark:text-gray-300"}`'}`}>{n.title}</p>
+                    <p className={`text-sm ${!n.read ? 'font-semibold text-gray-800 dark:text-white' : 'font-medium text-gray-700 dark:text-gray-300'}`}>{n.title}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">{n.message}</p>
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{timeAgo(n.createdAt)}</p>
                   </div>
