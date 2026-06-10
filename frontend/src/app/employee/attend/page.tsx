@@ -36,7 +36,7 @@ export default function AttendPage() {
         setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
         setStep('selfie');
       },
-      () => setGpsError('Localisation non disponible (HTTP). Vous pouvez continuer sans GPS.'),
+      () => setGpsError('Localisation non disponible. Autorisez l\'accès à la position dans les paramètres de votre navigateur, ou continuez sans GPS.'),
       { enableHighAccuracy: true, timeout: 10000 },
     );
   }, []);
@@ -74,7 +74,7 @@ export default function AttendPage() {
       }
     } catch {
       setCameraReady(false);
-      toast.error('Caméra non disponible (HTTP). Vous pouvez continuer sans selfie.');
+      toast.error('Caméra non disponible. Autorisez l\'accès à la caméra dans les paramètres de votre navigateur.');
     }
   };
 
