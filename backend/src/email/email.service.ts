@@ -2,6 +2,50 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as sgMail from '@sendgrid/mail';
 
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="48" height="48">
+  <rect width="80" height="80" rx="10" fill="#152535"/>
+  <path d="M 40 10 A 30 30 0 1 0 40 70" fill="none" stroke="#3ABFCF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 40 19 A 21 21 0 1 0 40 61" fill="none" stroke="#3ABFCF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 40 29 A 11 11 0 1 0 40 51" fill="none" stroke="#3ABFCF" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="40" y1="40" x2="70" y2="40" stroke="#3ABFCF" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="40" cy="40" r="5.5" fill="#3ABFCF"/>
+</svg>`;
+
+const HEADER = `
+<div style="background:#152535;padding:20px 28px;display:table;width:100%;box-sizing:border-box;">
+  <div style="display:table-cell;vertical-align:middle;">
+    <div style="display:inline-block;vertical-align:middle;margin-right:12px;">${LOGO_SVG}</div>
+    <div style="display:inline-block;vertical-align:middle;">
+      <div style="color:#ffffff;font-weight:700;font-size:18px;font-family:Arial,sans-serif;">e-Présence</div>
+      <div style="color:#3ABFCF;font-size:10px;letter-spacing:1.5px;font-family:Arial,sans-serif;">GESTION DES PRÉSENCES</div>
+    </div>
+  </div>
+  <div style="display:table-cell;vertical-align:middle;text-align:right;">
+    <div style="color:#3ABFCF;font-size:11px;font-family:Arial,sans-serif;">www.e-presence.org</div>
+    <div style="color:#8ab4c4;font-size:11px;margin-top:3px;font-family:Arial,sans-serif;">+243 81 000 0000</div>
+  </div>
+</div>`;
+
+const FOOTER = `
+<div style="background:#f8f8f8;border-top:1px solid #e8e8e8;padding:20px 28px;">
+  <p style="font-size:11px;color:#888;margin:0 0 4px;font-family:Arial,sans-serif;">Veuillez ne pas répondre à cet email.</p>
+  <p style="font-size:11px;color:#888;margin:0 0 4px;font-family:Arial,sans-serif;">© ${new Date().getFullYear()} e-Présence. Tous droits réservés.</p>
+  <p style="font-size:11px;color:#888;margin:0 0 4px;font-family:Arial,sans-serif;">Avenue de la Justice, Gombe, Kinshasa, République Démocratique du Congo</p>
+  <p style="font-size:11px;color:#888;margin:0;font-family:Arial,sans-serif;">
+    +243 81 000 0000 &middot; <a href="mailto:admin@e-presence.org" style="color:#3ABFCF;">admin@e-presence.org</a>
+  </p>
+</div>`;
+
+function layout(body: string): string {
+  return `<div style="background:#f4f4f4;padding:24px;font-family:Arial,sans-serif;">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;">
+    ${HEADER}
+    <div style="padding:32px 28px;">${body}</div>
+    ${FOOTER}
+  </div>
+</div>`;
+}
+
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
@@ -10,7 +54,7 @@ export class EmailService {
 
   constructor(private config: ConfigService) {
     const apiKey = config.get<string>('SENDGRID_API_KEY');
-    this.from = config.get<string>('SENDGRID_FROM_EMAIL') || 'noreply@epresence.com';
+    this.from = config.get<string>('SENDGRID_FROM_EMAIL') || 'noreply@e-presence.org';
 
     if (apiKey) {
       sgMail.setApiKey(apiKey);
@@ -21,84 +65,32 @@ export class EmailService {
     }
   }
 
-  async sendReportByEmail(
-    to: string,
-    recipientName: string,
-    subject: string,
-    filename: string,
-    contentType: string,
-    fileBuffer: Buffer,
-  ): Promise<void> {
-    if (!this.enabled) {
-      this.logger.log(`[EMAIL MOCK] Report sent to: ${to} | File: ${filename}`);
-      return;
-    }
-
-    const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
-        <div style="background: #1E3A5F; padding: 24px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 24px;">e-Présence</h1>
-          <p style="color: #a8c4e0; margin: 4px 0 0;">Rapport de Présence</p>
+  async sendWelcome(to: string, name: string, matricule: string, appUrl: string): Promise<void> {
+    const html = layout(`
+      <p style="font-size:15px;color:#222;margin:0 0 8px;">Bonjour <strong>${name}</strong>,</p>
+      <p style="font-size:14px;color:#444;margin:0 0 24px;line-height:1.6;">
+        Votre compte e-Présence a été créé. Utilisez les informations ci-dessous pour vous connecter pour la première fois.
+      </p>
+      <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:24px;text-align:center;margin-bottom:24px;">
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Matricule (identifiant)</div>
+          <div style="font-size:26px;font-weight:700;color:#152535;letter-spacing:3px;font-family:monospace;">${matricule}</div>
         </div>
-        <div style="padding: 32px;">
-          <p style="color: #333; font-size: 16px;">Bonjour <strong>${recipientName}</strong>,</p>
-          <p style="color: #555; font-size: 14px;">Veuillez trouver ci-joint le rapport de présences généré le ${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
-          <p style="color: #888; font-size: 13px; margin-top: 24px;">Cordialement,<br><strong>Système e-Présence</strong></p>
-        </div>
-        <div style="background: #f5f5f5; padding: 16px; text-align: center;">
-          <p style="color: #aaa; font-size: 12px; margin: 0;">e-Présence — Ne pas répondre à cet email</p>
+        <div style="border-top:1px solid #cde0ef;padding-top:16px;">
+          <div style="font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Mot de passe initial</div>
+          <div style="font-size:26px;font-weight:700;color:#152535;letter-spacing:3px;font-family:monospace;">${matricule}</div>
         </div>
       </div>
-    `;
-
-    try {
-      await sgMail.send({
-        to,
-        from: this.from,
-        subject,
-        html,
-        attachments: [
-          {
-            content: fileBuffer.toString('base64'),
-            filename,
-            type: contentType,
-            disposition: 'attachment',
-          },
-        ],
-      });
-      this.logger.log(`Report email sent to ${to}`);
-    } catch (err: any) {
-      this.logger.error(`Report email failed to ${to}: ${err.message}`);
-      throw err;
-    }
-  }
-
-  async sendWelcome(to: string, name: string, matricule: string, appUrl: string): Promise<void> {
-    const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
-        <div style="background: #1E3A5F; padding: 24px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 24px;">e-Présence</h1>
-          <p style="color: #a8c4e0; margin: 4px 0 0;">Bienvenue dans le système de présence</p>
-        </div>
-        <div style="padding: 32px;">
-          <p style="color: #333; font-size: 16px;">Bonjour <strong>${name}</strong>,</p>
-          <p style="color: #555; font-size: 14px;">Votre compte e-Présence a été créé. Voici vos informations de connexion :</p>
-          <div style="background: #f0f4f8; border: 2px solid #1E3A5F; border-radius: 10px; padding: 20px; margin: 20px 0; text-align: center;">
-            <p style="margin: 0 0 8px; color: #555; font-size: 13px;">Matricule (identifiant)</p>
-            <p style="margin: 0 0 16px; color: #1E3A5F; font-size: 22px; font-weight: bold; font-family: monospace; letter-spacing: 2px;">${matricule}</p>
-            <p style="margin: 0 0 4px; color: #555; font-size: 13px;">Mot de passe initial</p>
-            <p style="margin: 0; color: #1E3A5F; font-size: 22px; font-weight: bold; font-family: monospace; letter-spacing: 2px;">${matricule}</p>
-          </div>
-          <p style="color: #e53e3e; font-size: 13px; text-align: center;">⚠️ Vous serez invité à changer votre mot de passe à la première connexion.</p>
-          <div style="text-align: center; margin: 24px 0;">
-            <a href="${appUrl}" style="background: #1E3A5F; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold;">Se connecter →</a>
-          </div>
-          <p style="color: #888; font-size: 12px; text-align: center;">Lien : ${appUrl}</p>
-        </div>
-        <div style="background: #f5f5f5; padding: 16px; text-align: center;">
-          <p style="color: #aaa; font-size: 12px; margin: 0;">e-Présence — Ne pas répondre à cet email</p>
-        </div>
-      </div>`;
+      <div style="background:#fff8e1;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:24px;font-size:13px;color:#555;">
+        ⚠️ Vous serez invité à changer votre mot de passe à la première connexion.
+      </div>
+      <a href="${appUrl}" style="display:block;background:#152535;color:#ffffff;text-align:center;padding:14px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px;margin-bottom:16px;">
+        Se connecter →
+      </a>
+      <p style="font-size:12px;color:#999;text-align:center;margin:0;">
+        Lien : <a href="${appUrl}" style="color:#3ABFCF;">${appUrl}</a>
+      </p>
+    `);
 
     if (!this.enabled) {
       this.logger.log(`[EMAIL MOCK] Welcome email to: ${to} | Matricule: ${matricule}`);
@@ -113,24 +105,21 @@ export class EmailService {
   }
 
   async sendPasswordReset(to: string, name: string, resetLink: string): Promise<void> {
-    const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
-        <div style="background: #1E3A5F; padding: 24px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 24px;">e-Présence</h1>
-          <p style="color: #a8c4e0; margin: 4px 0 0;">Réinitialisation du mot de passe</p>
-        </div>
-        <div style="padding: 32px;">
-          <p style="color: #333; font-size: 16px;">Bonjour <strong>${name}</strong>,</p>
-          <p style="color: #555; font-size: 14px;">Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous :</p>
-          <div style="text-align: center; margin: 28px 0;">
-            <a href="${resetLink}" style="background: #1E3A5F; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: bold;">Réinitialiser mon mot de passe →</a>
-          </div>
-          <p style="color: #888; font-size: 12px; text-align: center;">Ce lien expire dans <strong>2 heures</strong>. Si vous n'avez pas fait cette demande, ignorez cet email.</p>
-        </div>
-        <div style="background: #f5f5f5; padding: 16px; text-align: center;">
-          <p style="color: #aaa; font-size: 12px; margin: 0;">e-Présence — Ne pas répondre à cet email</p>
-        </div>
-      </div>`;
+    const html = layout(`
+      <p style="font-size:15px;color:#222;margin:0 0 8px;">Bonjour <strong>${name}</strong>,</p>
+      <p style="font-size:14px;color:#444;margin:0 0 28px;line-height:1.6;">
+        Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous pour continuer.
+      </p>
+      <a href="${resetLink}" style="display:block;background:#152535;color:#ffffff;text-align:center;padding:14px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px;margin-bottom:20px;">
+        Réinitialiser mon mot de passe →
+      </a>
+      <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:16px;text-align:center;">
+        <p style="font-size:12px;color:#666;margin:0;line-height:1.6;">
+          Ce lien expire dans <strong>2 heures</strong>.<br>
+          Si vous n'avez pas fait cette demande, ignorez cet email.
+        </p>
+      </div>
+    `);
 
     if (!this.enabled) {
       this.logger.log(`[EMAIL MOCK] Password reset email to: ${to} | Link: ${resetLink}`);
@@ -150,41 +139,77 @@ export class EmailService {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
     });
 
-    const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
-        <div style="background: #1E3A5F; padding: 24px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 24px;">e-Présence</h1>
-          <p style="color: #a8c4e0; margin: 4px 0 0;">Système de Gestion des Présences</p>
-        </div>
-        <div style="padding: 32px; text-align: center;">
-          <p style="color: #333; font-size: 16px;">Bonjour <strong>${name}</strong>,</p>
-          <p style="color: #555; font-size: 14px;">Votre code de présence du <strong>${date}</strong> est :</p>
-          <div style="background: #f0f4f8; border: 2px dashed #1E3A5F; border-radius: 12px; padding: 24px; margin: 24px 0;">
-            <span style="font-size: 40px; font-weight: bold; letter-spacing: 12px; color: #1E3A5F; font-family: monospace;">${code}</span>
-          </div>
-          <p style="color: #888; font-size: 13px;">Ce code est valable uniquement aujourd'hui.<br>Connectez-vous à l'application et entrez ce code pour signer votre présence.</p>
-        </div>
-        <div style="background: #f5f5f5; padding: 16px; text-align: center;">
-          <p style="color: #aaa; font-size: 12px; margin: 0;">e-Présence — Ne pas répondre à cet email</p>
-        </div>
+    const html = layout(`
+      <p style="font-size:15px;color:#222;margin:0 0 8px;">Bonjour <strong>${name}</strong>,</p>
+      <p style="font-size:14px;color:#444;margin:0 0 24px;line-height:1.6;">
+        Votre code de présence du <strong>${date}</strong> est :
+      </p>
+      <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:28px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Code de présence</div>
+        <div style="font-size:38px;font-weight:700;color:#152535;letter-spacing:10px;font-family:monospace;">${code}</div>
+        <div style="font-size:12px;color:#888;margin-top:10px;">Valable uniquement aujourd'hui</div>
       </div>
-    `;
+      <div style="background:#fff8e1;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;font-size:13px;color:#555;">
+        <strong>Ne partagez pas ce code.</strong> Il est personnel et ne doit pas être communiqué à d'autres employés.
+      </div>
+    `);
 
     if (!this.enabled) {
       this.logger.log(`[EMAIL MOCK] To: ${to} | Code: ${code}`);
       return;
     }
+    try {
+      await sgMail.send({ to, from: this.from, subject: `e-Présence — Code du jour : ${code}`, html });
+      this.logger.log(`Email sent to ${to}`);
+    } catch (err: any) {
+      this.logger.error(`Email failed to ${to}: ${err.message}`);
+      throw err;
+    }
+  }
 
+  async sendReportByEmail(
+    to: string,
+    recipientName: string,
+    subject: string,
+    filename: string,
+    contentType: string,
+    fileBuffer: Buffer,
+  ): Promise<void> {
+    const html = layout(`
+      <p style="font-size:15px;color:#222;margin:0 0 8px;">Bonjour <strong>${recipientName}</strong>,</p>
+      <p style="font-size:14px;color:#444;margin:0 0 24px;line-height:1.6;">
+        Veuillez trouver ci-joint le rapport de présences généré le
+        <strong>${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>.
+      </p>
+      <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:16px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:13px;color:#152535;font-weight:700;">📎 ${filename}</div>
+        <div style="font-size:12px;color:#888;margin-top:4px;">Rapport joint à cet email</div>
+      </div>
+      <p style="font-size:13px;color:#888;margin:0;">Cordialement,<br><strong style="color:#152535;">Système e-Présence</strong></p>
+    `);
+
+    if (!this.enabled) {
+      this.logger.log(`[EMAIL MOCK] Report sent to: ${to} | File: ${filename}`);
+      return;
+    }
     try {
       await sgMail.send({
         to,
         from: this.from,
-        subject: `e-Présence — Code du jour : ${code}`,
+        subject,
         html,
+        attachments: [
+          {
+            content: fileBuffer.toString('base64'),
+            filename,
+            type: contentType,
+            disposition: 'attachment',
+          },
+        ],
       });
-      this.logger.log(`Email sent to ${to}`);
+      this.logger.log(`Report email sent to ${to}`);
     } catch (err: any) {
-      this.logger.error(`Email failed to ${to}: ${err.message}`);
+      this.logger.error(`Report email failed to ${to}: ${err.message}`);
       throw err;
     }
   }
