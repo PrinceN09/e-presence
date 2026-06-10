@@ -121,7 +121,6 @@ export class EmployeesService {
   }
 
   async update(id: string, dto: UpdateEmployeeDto, adminId?: string) {
-    if (dto.matricule) dto.matricule = normalizeMatricule(dto.matricule);
     const before = await this.findOne(id);
     const updated = await this.prisma.employee.update({
       where: { id },
