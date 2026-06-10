@@ -39,6 +39,7 @@ model Employee {
   leaveRequests       LeaveRequest[]
   passwordResetTokens PasswordResetToken[]
   auditLogs           AuditLog[]
+  notifications       Notification[]
 }
 
 model RefreshToken {
@@ -116,6 +117,18 @@ model AuditLog {
   details    Json?    // before/after snapshot or relevant fields
   adminId    String?
   admin      Employee? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  type       String   // LEAVE_REQUEST, LEAVE_APPROVED, LEAVE_REJECTED
+  title      String
+  message    String
+  link       String?
+  read       Boolean  @default(false)
   createdAt  DateTime @default(now())
 }
 

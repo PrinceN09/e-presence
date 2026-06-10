@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { startOfDay } from 'date-fns';
 
 export const LEAVE_TYPE_LABELS: Record<string, string> = {
@@ -13,7 +14,11 @@ export const LEAVE_TYPE_LABELS: Record<string, string> = {
 
 @Injectable()
 export class LeavesService {
-  constructor(private prisma: PrismaService, private audit: AuditService) {}
+  constructor(
+    private prisma: PrismaService,
+    private audit: AuditService,
+    private notifications: NotificationsService,
+  ) {}
 
   private includeEmployee = {
     employee: { select: { id: true, name: true, matricule: true, department: { select: { name: true } } } },
@@ -25,7 +30,7 @@ export class LeavesService {
     const end   = startOfDay(new Date(dto.endDate));
     if (end < start) throw new BadRequestException('La date de fin doit être après la date de début');
 
-    return this.prisma.leaveRequest.create({
+    const leave = await this.prisma.leaveRequest.create({
       data: {
         employeeId,
         type:      dto.type as any,
@@ -35,6 +40,18 @@ export class LeavesService {
       },
       include: this.includeEmployee,
     });
+
+    // Notify all admins
+    const typeLabel = LEAVE_TYPE_LABELS[dto.type] || dto.type;
+    const empName = (leave.employee as any).name;
+    this.notifications.createForAllAdmins({
+      type: 'LEAVE_REQUEST',
+      title: 'Nouvelle demande de congé',
+      message: `${empName} a soumis une demande de ${typeLabel.toLowerCase()}.`,
+      link: '/admin/leaves',
+    }).catch(() => {});
+
+    return leave;
   }
 
   /** Employee's own requests */
@@ -68,12 +85,28 @@ export class LeavesService {
   async review(id: string, status: 'APPROVED' | 'REJECTED', adminNote?: string, adminId?: string) {
     const req = await this.prisma.leaveRequest.findUnique({ where: { id } });
     if (!req) throw new NotFoundException('Demande introuvable');
+
     const updated = await this.prisma.leaveRequest.update({
       where: { id },
       data: { status, adminNote },
       include: this.includeEmployee,
     });
+
     this.audit.log({ action: `LEAVE_${status}`, entity: 'LeaveRequest', entityId: id, adminId, details: { employeeId: req.employeeId, type: req.type, adminNote } });
+
+    // Notify the employee
+    const typeLabel = LEAVE_TYPE_LABELS[req.type] || req.type;
+    const isApproved = status === 'APPROVED';
+    this.notifications.create({
+      employeeId: req.employeeId,
+      type: `LEAVE_${status}`,
+      title: isApproved ? 'Congé approuvé ✓' : 'Congé refusé',
+      message: isApproved
+        ? `Votre demande de ${typeLabel.toLowerCase()} a été approuvée.`
+        : `Votre demande de ${typeLabel.toLowerCase()} a été refusée.${adminNote ? ` Motif : ${adminNote}` : ''}`,
+      link: '/employee',
+    }).catch(() => {});
+
     return updated;
   }
 

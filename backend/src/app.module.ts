@@ -17,6 +17,7 @@ import { SettingsModule } from './settings/settings.module';
 import { LeavesModule } from './leaves/leaves.module';
 import { PublicHolidaysModule } from './public-holidays/public-holidays.module';
 import { AuditModule } from './audit/audit.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   controllers: [HealthController],
@@ -38,6 +39,7 @@ import { AuditModule } from './audit/audit.module';
     LeavesModule,
     PublicHolidaysModule,
     AuditModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

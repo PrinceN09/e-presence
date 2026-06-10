@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { formatTime } from '@/lib/utils';
 import { Clock, CheckCircle2, LogIn, LogOut, Loader2, AlertCircle, QrCode, Coffee, Plus, X } from 'lucide-react';
 import jsQR from 'jsqr';
+import NotificationBell from '@/components/NotificationBell';
 
 const LEAVE_TYPES = [
   { value: 'VACATION',  label: 'Congé annuel' },
@@ -204,8 +205,13 @@ export default function EmployeePage() {
 
       {/* Greeting + Clock */}
       <div className="bg-gradient-to-r from-[#1E3A5F] to-[#2E5090] rounded-2xl p-6 text-white">
-        <p className="text-blue-200 text-sm">Bonjour,</p>
-        <h1 className="text-2xl font-bold">{user?.name}</h1>
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-blue-200 text-sm">Bonjour,</p>
+            <h1 className="text-2xl font-bold">{user?.name}</h1>
+          </div>
+          <NotificationBell />
+        </div>
         <p className="text-blue-200 text-sm mt-0.5">{user?.grade} — {user?.department}</p>
         <div className="mt-4 text-4xl font-mono font-bold tracking-widest">
           {now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
@@ -351,17 +357,17 @@ export default function EmployeePage() {
               </select>
             </div>
             <div className="flex flex-col gap-3">
-              <div className="relative">
-                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Date de début</label>
+              <div>
+                <label className="text-xs font-medium text-gray-600">Date de début</label>
                 <input type="date" value={leaveForm.startDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, startDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F]" />
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
-              <div className="relative">
-                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Date de fin</label>
+              <div>
+                <label className="text-xs font-medium text-gray-600">Date de fin</label>
                 <input type="date" value={leaveForm.endDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, endDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F]" />
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
             </div>
             <div>

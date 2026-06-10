@@ -8,6 +8,7 @@ import { Clock, LogOut, LayoutDashboard, Users, CalendarCheck, FileText, Code2, 
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import NotificationBell from '@/components/NotificationBell';
 
 const nav = [
   { href: '/admin', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -96,6 +97,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       <main className="flex-1 overflow-auto">
+        {/* Top bar with notification bell */}
+        <div className="bg-[#1E3A5F] px-6 py-2 flex justify-end items-center gap-2">
+          <NotificationBell />
+        </div>
         <div className="p-6">{children}</div>
       </main>
     </div>
