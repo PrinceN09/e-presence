@@ -350,18 +350,18 @@ export default function EmployeePage() {
                 {LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs font-medium text-gray-600">Date de début</label>
+            <div className="flex flex-col gap-3">
+              <div className="relative">
+                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Date de début</label>
                 <input type="date" value={leaveForm.startDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, startDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 px-3 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F]" />
               </div>
-              <div>
-                <label className="text-xs font-medium text-gray-600">Date de fin</label>
+              <div className="relative">
+                <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Date de fin</label>
                 <input type="date" value={leaveForm.endDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, endDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 px-3 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F]" />
               </div>
             </div>
             <div>

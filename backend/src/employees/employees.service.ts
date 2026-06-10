@@ -33,6 +33,11 @@ export class UpdateEmployeeDto {
   @IsOptional() @IsEnum(['EMPLOYEE', 'ADMIN']) role?: 'EMPLOYEE' | 'ADMIN';
 }
 
+/** Always store matricule with dots: 1.234.744 not 1,234,744 */
+function normalizeMatricule(raw: string): string {
+  return raw.trim().replace(/,/g, '.');
+}
+
 @Injectable()
 export class EmployeesService {
   constructor(
@@ -75,6 +80,7 @@ export class EmployeesService {
   }
 
   async create(dto: CreateEmployeeDto, adminId?: string) {
+    dto.matricule = normalizeMatricule(dto.matricule);
     const orConditions: any[] = [{ matricule: dto.matricule }];
     if (dto.phone) orConditions.push({ phone: dto.phone });
     if (dto.email) orConditions.push({ email: dto.email });
@@ -115,6 +121,7 @@ export class EmployeesService {
   }
 
   async update(id: string, dto: UpdateEmployeeDto, adminId?: string) {
+    if (dto.matricule) dto.matricule = normalizeMatricule(dto.matricule);
     const before = await this.findOne(id);
     const updated = await this.prisma.employee.update({
       where: { id },
@@ -218,7 +225,7 @@ export class EmployeesService {
         return cell.text?.toString().trim() || '';
       };
 
-      const matricule = getValue(1);
+      const matricule = normalizeMatricule(getValue(1));
       const name = getValue(2);
       const grade = getValue(3);
       const gradeLabel = getValue(4);

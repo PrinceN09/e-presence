@@ -2,6 +2,15 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as sgMail from '@sendgrid/mail';
 
+// Inline SVG icons — render in every email client (Gmail, Outlook, Apple Mail, etc.)
+const ICON_WARNING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r="0.5" fill="#b45309"/></svg>`;
+
+const ICON_PAPERCLIP = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#152535" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:7px;"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`;
+
+const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#152535" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:7px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+
+const ICON_CALENDAR = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+
 const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="48" height="48">
   <rect width="80" height="80" rx="10" fill="#152535"/>
   <path d="M 40 10 A 30 30 0 1 0 40 70" fill="none" stroke="#3ABFCF" stroke-width="5" stroke-linecap="round"/>
@@ -81,8 +90,8 @@ export class EmailService {
           <div style="font-size:26px;font-weight:700;color:#152535;letter-spacing:3px;font-family:monospace;">${matricule}</div>
         </div>
       </div>
-      <div style="background:#fff8e1;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:24px;font-size:13px;color:#555;">
-        ⚠️ Vous serez invité à changer votre mot de passe à la première connexion.
+      <div style="background:#fffbeb;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:24px;font-size:13px;color:#78350f;display:flex;align-items:flex-start;">
+        ${ICON_WARNING}<span>Vous serez invité à changer votre mot de passe à la première connexion.</span>
       </div>
       <a href="${appUrl}" style="display:block;background:#152535;color:#ffffff;text-align:center;padding:14px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px;margin-bottom:16px;">
         Se connecter →
@@ -115,7 +124,7 @@ export class EmailService {
       </a>
       <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:16px;text-align:center;">
         <p style="font-size:12px;color:#666;margin:0;line-height:1.6;">
-          Ce lien expire dans <strong>2 heures</strong>.<br>
+          ${ICON_SHIELD}Ce lien expire dans <strong>2 heures</strong>.<br>
           Si vous n'avez pas fait cette demande, ignorez cet email.
         </p>
       </div>
@@ -142,15 +151,15 @@ export class EmailService {
     const html = layout(`
       <p style="font-size:15px;color:#222;margin:0 0 8px;">Bonjour <strong>${name}</strong>,</p>
       <p style="font-size:14px;color:#444;margin:0 0 24px;line-height:1.6;">
-        Votre code de présence du <strong>${date}</strong> est :
+        ${ICON_CALENDAR}Votre code de présence du <strong>${date}</strong> est :
       </p>
       <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:28px;text-align:center;margin-bottom:24px;">
         <div style="font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Code de présence</div>
         <div style="font-size:38px;font-weight:700;color:#152535;letter-spacing:10px;font-family:monospace;">${code}</div>
         <div style="font-size:12px;color:#888;margin-top:10px;">Valable uniquement aujourd'hui</div>
       </div>
-      <div style="background:#fff8e1;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;font-size:13px;color:#555;">
-        <strong>Ne partagez pas ce code.</strong> Il est personnel et ne doit pas être communiqué à d'autres employés.
+      <div style="background:#fffbeb;border-left:3px solid #f9a825;border-radius:0 6px 6px 0;padding:12px 16px;font-size:13px;color:#78350f;display:flex;align-items:flex-start;">
+        ${ICON_WARNING}<span><strong>Ne partagez pas ce code.</strong> Il est personnel et ne doit pas être communiqué à d'autres employés.</span>
       </div>
     `);
 
@@ -182,7 +191,7 @@ export class EmailService {
         <strong>${new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>.
       </p>
       <div style="background:#f0f6fb;border:1px solid #cde0ef;border-radius:8px;padding:16px;text-align:center;margin-bottom:24px;">
-        <div style="font-size:13px;color:#152535;font-weight:700;">📎 ${filename}</div>
+        <div style="font-size:13px;color:#152535;font-weight:700;">${ICON_PAPERCLIP}${filename}</div>
         <div style="font-size:12px;color:#888;margin-top:4px;">Rapport joint à cet email</div>
       </div>
       <p style="font-size:13px;color:#888;margin:0;">Cordialement,<br><strong style="color:#152535;">Système e-Présence</strong></p>

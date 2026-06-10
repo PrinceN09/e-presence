@@ -21,7 +21,7 @@ export function formatTime(dateStr: string | null | undefined): string {
 
 export function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '—';
-  return new Date(dateStr).toLocaleDateString('fr-FR', {
-    weekday: 'short', day: '2-digit', month: 'short', year: 'numeric',
-  });
+  return new Date(dateStr)
+    .toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
