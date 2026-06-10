@@ -157,13 +157,13 @@ export default function EmployeesPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
           />
         </div>
         <select
           value={deptFilter}
           onChange={(e) => setDeptFilter(e.target.value)}
-          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
         >
           <option value="">Tous les départements</option>
           {departments.map((d: any) => (
@@ -178,14 +178,14 @@ export default function EmployeesPage() {
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
               <tr>
                 {['Matricule', 'Nom & Prénom', 'Grade', 'Département', 'Téléphone', 'Statut', 'Actions'].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">{h}</th>
+                  <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{h}</th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y dark:divide-gray-700">
               {filtered.map((emp: any) => (
                 <tr key={emp.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-4 py-3 text-sm font-mono text-gray-700 dark:text-gray-200">{emp.matricule}</td>
@@ -239,7 +239,7 @@ export default function EmployeesPage() {
 
       {/* Import Results Modal */}
       {importResult && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-semibold text-gray-800 dark:text-white">Résultat de l&apos;importation</h2>
@@ -290,7 +290,7 @@ export default function EmployeesPage() {
 
       {/* Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-semibold text-gray-800 dark:text-white">{editing ? 'Modifier l\'employé' : 'Ajouter un employé'}</h2>
@@ -322,7 +322,7 @@ export default function EmployeesPage() {
 
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Département</label>
-                <select {...register('departmentId')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                <select {...register('departmentId')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                   <option value="">Sélectionner...</option>
                   {departments.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
                 </select>
@@ -331,7 +331,7 @@ export default function EmployeesPage() {
 
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Rôle</label>
-                <select {...register('role')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                <select {...register('role')} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                   <option value="EMPLOYEE">Employé</option>
                   <option value="ADMIN">Administrateur</option>
                 </select>

@@ -352,7 +352,7 @@ export default function EmployeePage() {
             <div>
               <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Type de congé</label>
               <select value={leaveForm.type} onChange={(e) => setLeaveForm((f) => ({ ...f, type: e.target.value }))}
-                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]">
+                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                 {LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
             </div>
@@ -361,20 +361,20 @@ export default function EmployeePage() {
                 <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Date de début</label>
                 <input type="date" value={leaveForm.startDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, startDate: e.target.value }))}
-                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
               </div>
               <div>
                 <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Date de fin</label>
                 <input type="date" value={leaveForm.endDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, endDate: e.target.value }))}
-                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
               </div>
             </div>
             <div>
               <label className="text-xs font-medium text-gray-600 dark:text-gray-300">Motif (optionnel)</label>
               <input value={leaveForm.reason} onChange={(e) => setLeaveForm((f) => ({ ...f, reason: e.target.value }))}
                 placeholder="Raison de la demande"
-                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                className="w-full mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
             </div>
             <div className="flex gap-3">
               <button onClick={() => setShowLeaveForm(false)} className="px-4 py-2 text-sm text-gray-500 border border-gray-300 dark:border-gray-600 rounded-lg bg-white">Annuler</button>

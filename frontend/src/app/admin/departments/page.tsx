@@ -79,7 +79,7 @@ export default function DepartmentsPage() {
               onChange={(e) => setNewName(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && newName.trim()) createMut.mutate(); if (e.key === 'Escape') setShowForm(false); }}
               placeholder="Ex: Division Unique, Ressources Humaines..."
-              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             />
             <button
               onClick={() => { if (newName.trim()) createMut.mutate(); }}
@@ -103,7 +103,7 @@ export default function DepartmentsPage() {
         ) : (departments as any[]).length === 0 ? (
           <div className="p-8 text-center text-gray-400">Aucun département</div>
         ) : (
-          <div className="divide-y">
+          <div className="divide-y dark:divide-gray-700">
             {(departments as any[]).map((dept: any) => (
               <div key={dept.id} className="flex items-center gap-4 px-5 py-4">
                 <div className="w-9 h-9 rounded-lg bg-[#1E3A5F]/10 flex items-center justify-center">
@@ -120,7 +120,7 @@ export default function DepartmentsPage() {
                         if (e.key === 'Enter') updateMut.mutate({ id: dept.id, name: editingName });
                         if (e.key === 'Escape') setEditingId(null);
                       }}
-                      className="flex-1 px-3 py-1.5 border border-[#1E3A5F] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                      className="flex-1 px-3 py-1.5 border border-[#1E3A5F] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     />
                     <button
                       onClick={() => updateMut.mutate({ id: dept.id, name: editingName })}

@@ -91,7 +91,7 @@ export default function HolidaysPage() {
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               placeholder="Ex: Fête de l'Indépendance"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -101,7 +101,7 @@ export default function HolidaysPage() {
                 type="date"
                 value={form.date}
                 onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function HolidaysPage() {
               <select
                 value={form.recurring ? 'true' : 'false'}
                 onChange={(e) => setForm((f) => ({ ...f, recurring: e.target.value === 'true' }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               >
                 <option value="true">Tous les ans</option>
                 <option value="false">Date unique</option>
@@ -145,7 +145,7 @@ export default function HolidaysPage() {
           </div>
         ) : (
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
               <tr>
                 <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
                 <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
@@ -153,7 +153,7 @@ export default function HolidaysPage() {
                 <th className="px-5 py-3"></th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y dark:divide-gray-700">
               {holidays.map((h) => (
                 <tr key={h.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-5 py-3.5 font-medium text-gray-800 dark:text-white">{h.name}</td>
