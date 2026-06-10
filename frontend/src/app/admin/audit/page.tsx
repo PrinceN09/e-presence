@@ -116,7 +116,7 @@ export default function AuditPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden overflow-x-auto">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (
@@ -125,7 +125,7 @@ export default function AuditPage() {
               <span className="text-sm text-gray-500 dark:text-gray-400">{logs.length} entrée(s)</span>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[640px]">
                 <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                   <tr>
                     {['Date & Heure', 'Action', 'Entité', 'Effectué par', 'Détails'].map((h) => (

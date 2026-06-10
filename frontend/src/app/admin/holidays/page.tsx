@@ -136,7 +136,7 @@ export default function HolidaysPage() {
       )}
 
       {/* List */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden overflow-x-auto">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : holidays.length === 0 ? (
@@ -144,7 +144,7 @@ export default function HolidaysPage() {
             Aucun jour férié. Cliquez &ldquo;Ajouter&rdquo; ou appliquez la migration SQL pour charger les jours fériés DRC.
           </div>
         ) : (
-          <table className="w-full">
+          <table className="w-full min-w-[640px]">
             <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
               <tr>
                 <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>

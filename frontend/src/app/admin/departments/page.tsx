@@ -97,7 +97,7 @@ export default function DepartmentsPage() {
       )}
 
       {/* List */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden overflow-x-auto">
         {isLoading ? (
           <div className="p-8 text-center text-gray-400">Chargement...</div>
         ) : (departments as any[]).length === 0 ? (
