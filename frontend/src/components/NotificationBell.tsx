@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Bell, Check, CheckCheck, X } from 'lucide-react';
+import { Bell, CheckCheck, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 
@@ -28,14 +28,14 @@ function iconColor(type: string) {
   return 'bg-blue-100 text-blue-600';
 }
 
-export default function NotificationBell() {
+export default function NotificationBell({ floating = false }: { floating?: boolean }) {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unread, setUnread] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const fetch = async () => {
+  const fetchNotifs = async () => {
     try {
       const [notifRes, countRes] = await Promise.all([
         api.get('/notifications'),
@@ -47,12 +47,11 @@ export default function NotificationBell() {
   };
 
   useEffect(() => {
-    fetch();
-    const interval = setInterval(fetch, 30000);
+    fetchNotifs();
+    const interval = setInterval(fetchNotifs, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -77,23 +76,43 @@ export default function NotificationBell() {
     setNotifications((prev) => prev.map((x) => ({ ...x, read: true })));
   };
 
+  // Dropdown opens upward when floating (bottom-right)
+  const dropdownPos = floating
+    ? 'bottom-14 right-0'
+    : 'top-10 right-0';
+
+  const bellBtn = floating ? (
+    <button
+      onClick={() => setOpen((o) => !o)}
+      className="relative w-12 h-12 bg-[#1E3A5F] rounded-full shadow-lg flex items-center justify-center hover:bg-[#162d4a] transition-colors"
+    >
+      <Bell className="w-5 h-5 text-white" />
+      {unread > 0 && (
+        <span className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+          {unread > 9 ? '9+' : unread}
+        </span>
+      )}
+    </button>
+  ) : (
+    <button
+      onClick={() => setOpen((o) => !o)}
+      className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
+    >
+      <Bell className="w-5 h-5 text-gray-600" />
+      {unread > 0 && (
+        <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+          {unread > 9 ? '9+' : unread}
+        </span>
+      )}
+    </button>
+  );
+
   return (
     <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="relative p-2 rounded-lg hover:bg-white/10 transition-colors"
-      >
-        <Bell className="w-5 h-5 text-white" />
-        {unread > 0 && (
-          <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
-            {unread > 9 ? '9+' : unread}
-          </span>
-        )}
-      </button>
+      {bellBtn}
 
       {open && (
-        <div className="absolute right-0 top-10 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
-          {/* Header */}
+        <div className={`absolute ${dropdownPos} w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden`}>
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <span className="font-semibold text-gray-800 text-sm">Notifications</span>
             <div className="flex items-center gap-2">
@@ -108,7 +127,6 @@ export default function NotificationBell() {
             </div>
           </div>
 
-          {/* List */}
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="py-10 text-center text-gray-400 text-sm">

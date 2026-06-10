@@ -35,7 +35,7 @@ export default function AdminDashboard() {
       <div>
         <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
         <p className="text-gray-500 text-sm mt-1">
-          {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace(/\b\w/g, (c) => c.toUpperCase())}
         </p>
       </div>
 

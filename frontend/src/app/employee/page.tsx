@@ -356,18 +356,18 @@ export default function EmployeePage() {
                 {LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-xs font-medium text-gray-600">Date de début</label>
                 <input type="date" value={leaveForm.startDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, startDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 rounded-lg text-xs text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
               <div>
                 <label className="text-xs font-medium text-gray-600">Date de fin</label>
                 <input type="date" value={leaveForm.endDate}
                   onChange={(e) => setLeaveForm((f) => ({ ...f, endDate: e.target.value }))}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
+                  className="w-full mt-1 h-10 px-2 border border-gray-300 rounded-lg text-xs text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-[#1E3A5F]" />
               </div>
             </div>
             <div>

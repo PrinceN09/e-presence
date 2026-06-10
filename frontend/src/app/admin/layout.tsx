@@ -97,12 +97,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       <main className="flex-1 overflow-auto">
-        {/* Top bar with notification bell */}
-        <div className="bg-[#1E3A5F] px-6 py-2 flex justify-end items-center gap-2">
-          <NotificationBell />
-        </div>
         <div className="p-6">{children}</div>
       </main>
+
+      {/* Floating notification bell — bottom right */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <NotificationBell floating />
+      </div>
     </div>
   );
 }
