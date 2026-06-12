@@ -83,31 +83,38 @@ export class DailyCodeService {
   }
 
   private async broadcastCode(code: string) {
+    // SMS → all active employees (they need the code on their phones)
     const employees = await this.prisma.employee.findMany({
       where: { isActive: true, role: 'EMPLOYEE' },
-      select: { phone: true, email: true, name: true },
+      select: { phone: true, name: true },
     });
 
-    let smsSent = 0, emailSent = 0;
-
+    let smsSent = 0;
     for (const emp of employees) {
-      // Send SMS
       const smsMsg = `e-Présence: Votre code de présence du jour est: ${code}. Valable uniquement aujourd'hui.`;
       await this.sms.send(emp.phone, smsMsg).catch((err) =>
         this.logger.error(`SMS failed to ${emp.phone}: ${err.message}`),
       );
       smsSent++;
+    }
 
-      // Send Email
-      if (emp.email) {
-        await this.email.sendAttendanceCode(emp.email, emp.name, code).catch((err) =>
-          this.logger.error(`Email failed to ${emp.email}: ${err.message}`),
+    // Email → admins only
+    const admins = await this.prisma.employee.findMany({
+      where: { isActive: true, role: 'ADMIN' },
+      select: { email: true, name: true },
+    });
+
+    let emailSent = 0;
+    for (const admin of admins) {
+      if (admin.email) {
+        await this.email.sendAttendanceCode(admin.email, admin.name, code).catch((err) =>
+          this.logger.error(`Email failed to ${admin.email}: ${err.message}`),
         );
         emailSent++;
       }
     }
 
-    this.logger.log(`Code ${code} sent — SMS: ${smsSent}, Email: ${emailSent}`);
+    this.logger.log(`Code ${code} sent — SMS: ${smsSent}, Email (admins): ${emailSent}`);
   }
 
   // Auto-generate at 7:00 AM Monday–Saturday
